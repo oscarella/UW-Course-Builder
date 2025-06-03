@@ -76,7 +76,7 @@ async def scrape():
         subj_blocks_num = await subj_blocks.count()
 
         # Populates subj_dict
-        for i in range(subj_blocks_num)[0:1]:
+        for i in range(subj_blocks_num):
             subj_block = subj_blocks.nth(i)
             subj_name = await subj_block.locator('h2').inner_text()
             subj_link = await subj_block.locator('a').get_attribute('href')
@@ -105,7 +105,7 @@ async def scrape():
 
                 course = []
                 name = await page.title()
-                print(name)
+                # print(name)
                 course.append(name)
                 description = ''
                 body = ''
