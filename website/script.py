@@ -48,7 +48,7 @@ async def prettify_subtext(text, indent_list):
                 i += 1
     return pretty_text
 
-async def main():
+async def scrape():
     async with async_playwright() as p:
 
         # Commands to ensure web scraping works when headless mode is True
@@ -64,6 +64,9 @@ async def main():
         page = await context.new_page()
         await page.set_viewport_size({"width": 1920, "height": 1080})
 
+        # return val
+        courses = []
+
         # Waterloo Academic Calendar Course page
         await wait_for_text(page, 'https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/', '(WKRPT)')
         # subj_dict[name] = link
@@ -73,7 +76,7 @@ async def main():
         subj_blocks_num = await subj_blocks.count()
 
         # Populates subj_dict
-        for i in range(subj_blocks_num):
+        for i in range(subj_blocks_num)[0:1]:
             subj_block = subj_blocks.nth(i)
             subj_name = await subj_block.locator('h2').inner_text()
             subj_link = await subj_block.locator('a').get_attribute('href')
@@ -89,7 +92,7 @@ async def main():
             course_blocks_num = await course_blocks.count()
 
             # Populates course_dict
-            for i in range(course_blocks_num):
+            for i in range(course_blocks_num)[0:4]:
                 course_block = course_blocks.nth(i).locator('a')
                 course_name = await course_block.inner_text()
                 course_link ='https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog' + await course_block.get_attribute('href')
@@ -100,11 +103,10 @@ async def main():
                 global indent_list # uses global var
                 await wait_for_text(page, c_link, c_name)
 
+                course = []
                 name = await page.title()
-                # (DELETE)
-                # TEMPORARY COMMAND
-                # (DELETE)
                 print(name)
+                course.append(name)
                 description = ''
                 body = ''
 
@@ -131,15 +133,10 @@ async def main():
                     else:
                         body += f'[[{subheading_title}]] {subheading_text} '
                 
-                # (DELETE)
-                # TEMPORARY COMMAND
-                # (DELETE)
-                print(description)
-                print(body)
-                print()
+                course.append(description)
+                course.append(body)
+                courses.append(course)
 
         await page.close()
         await browser.close()
-
-if __name__ == "__main__":
-    asyncio.run(main())
+        return courses
