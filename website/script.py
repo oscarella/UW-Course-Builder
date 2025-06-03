@@ -92,7 +92,7 @@ async def scrape():
             course_blocks_num = await course_blocks.count()
 
             # Populates course_dict
-            for i in range(course_blocks_num)[0:4]:
+            for i in range(course_blocks_num):
                 course_block = course_blocks.nth(i).locator('a')
                 course_name = await course_block.inner_text()
                 course_link ='https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog' + await course_block.get_attribute('href')

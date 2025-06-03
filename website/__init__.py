@@ -1,11 +1,13 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_whooshee import Whooshee
 from os import path
 import asyncio
 from . import script
 
 # Database created
 db = SQLAlchemy()
+whooshee = Whooshee()
 DB_NAME = "database.db"
 courses = []
 
@@ -14,14 +16,12 @@ def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'UWATERLOO'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    app.config['WHOOSHEE_DIR'] = 'whooshee' # Stores index on server
     db.init_app(app)
+    whooshee.init_app(app)
     # Populates database
     from .models import User, Term, Course
     create_database(app)
-
-    with app.app_context():
-        c = Course.query.filter_by(id=1).first()
-        print(c.title + c.description + c.body)
 
     return app
 

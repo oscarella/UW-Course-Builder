@@ -1,4 +1,4 @@
-from . import db
+from . import db, whooshee
 from flask_login import UserMixin # Module to assist user login
 
 # Association table - User & Course
@@ -29,8 +29,13 @@ class Term(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     courses = db.relationship('Course', secondary=added, backref='terms')
 
+@whooshee.register_model('title', 'description')
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), unique=True, nullable=False)
     description = db.Column(db.Text, default="No description found.")
     body = db.Column(db.Text, default="No body found.")
+# Adding info about whooshee for later use
+# SEARCH RESULT ORDERING
+# Default only 10 results show
+# whooshee_search('value', order_by_relevance=0).all()
