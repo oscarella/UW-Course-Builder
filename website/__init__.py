@@ -19,8 +19,12 @@ def create_app():
     app.config['WHOOSHEE_DIR'] = 'whooshee' # Stores index on server
     db.init_app(app)
     whooshee.init_app(app)
+    # Register Blueprints
+    from .views import views
+    from .auth import auth
+    app.register_blueprint(views, url_prefix='/')
+    app.register_blueprint(auth, url_prefix='/')
     # Populates database
-    from .models import User, Term, Course
     create_database(app)
 
     return app
