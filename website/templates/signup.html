@@ -1,3 +1,34 @@
-{% extends "base.html" %}
-{% block title %} Signup {% endblock %}
-{% block body %} Signup {% endblock %}
+{% extends "base.html" %} {% block title %} Signup {% endblock %} {% block body
+%}
+<div class="row">
+  <div class="col-12 col-md-4 offset-md-4 mt-5">
+    <div class="card" style="background-color: black; border-color: #DFDFDF; border-radius: 5%;">
+      <h4 class="card-header text-center" style="color: white; border-color: #DFDFDF"> Create Account </h5>
+      <div class="card-body">
+        <form method="POST">
+            <div class="mb-3">
+                <label for="first_name" class="form-label fw-bold" style="color: white"> First Name </label>
+                <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter first name">
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label fw-bold" style="color: white"> Email Address </label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+            </div>
+            <div class="mb-3">
+                <label for="password1" class="form-label fw-bold" style="color: white"> Password </label>
+                <input type="password" class="form-control" id="password1" name="password1" placeholder="Enter password">
+            </div>
+            <div class="mb-3">
+                <label for="password2" class="form-label fw-bold" style="color: white"> Password (Confirm) </label>
+                <input type="password" class="form-control" id="password2" name="password2" placeholder="Confirm password">
+            </div>
+            <div class="d-flex justify-content-center"> 
+                 <button type="submit" class="btn btn-warning fw-bold" style="color: white"> Submit </button> 
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -14,7 +14,16 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
       crossorigin="anonymous"
-    />
+    /> 
+    <style>
+      body {
+        background-image: url("{{ url_for('static', filename='bg.png') }}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+      }
+    </style>
     <!-- Block can be overriden by child template -->
     <title>{% block title %}Home{% endblock %}</title>
   </head>
@@ -67,11 +76,9 @@
           href="https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses"
           target="_blank"
           rel="noopener noreferrer"
-          style="color: #ffd54f;"
+          style="color: #ffd54f"
         >
-          <small>
-            2025-2026 UNDERGRADUATE STUDIES
-          </small>
+          <small> 2025-2026 UNDERGRADUATE STUDIES </small>
         </a>
         .
       </h6>
