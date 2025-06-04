@@ -1,3 +1,55 @@
-{% extends "base.html" %}
-{% block title %} Login {% endblock %}
-{% block body %} Login {% endblock %}
+{% extends "base.html" %} {% block title %} Login {% endblock %} {% block body
+%}
+<div class="row">
+  <div class="col-12 col-md-4 offset-md-4 mt-5">
+    <div
+      class="card"
+      style="background-color: black; border-color: #dfdfdf; border-radius: 5%"
+    >
+      <h4
+        class="card-header text-center"
+        style="color: white; border-color: #dfdfdf"
+      >
+        Login
+      </h4>
+      <div class="card-body">
+        <form method="POST">
+          <div class="mb-3">
+            <label for="email" class="form-label fw-bold" style="color: white">
+              Email Address
+            </label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              name="email"
+              placeholder="Enter email"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="pw" class="form-label fw-bold" style="color: white">
+              Password
+            </label>
+            <input
+              type="password"
+              class="form-control"
+              id="pw"
+              name="pw"
+              placeholder="Enter password"
+            />
+          </div>
+          <div class="d-flex justify-content-center">
+            <button
+              type="submit"
+              class="btn btn-warning fw-bold"
+              style="color: white"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

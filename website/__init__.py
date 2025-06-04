@@ -4,6 +4,7 @@ from flask_whooshee import Whooshee
 from os import path
 import asyncio
 from . import script
+from flask_login import LoginManager
 
 # Database created
 db = SQLAlchemy()
@@ -25,7 +26,16 @@ def create_app():
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
     # Populates database
+    from .models import User
     create_database(app)
+
+    login_manager = LoginManager()
+    login_manager.login_view = 'auth.login'
+    login_manager.init_app(app)
+    # Tells Flask how we load User
+    @login_manager.user_loader
+    def load_user(id):
+        return User.query.get(int(id))
 
     return app
 
