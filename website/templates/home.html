@@ -3,14 +3,126 @@
 <div class="main-content" style="padding-bottom: 70px">
   <div class="d-flex flex-nowrap" style="overflow-x: auto">
     {% for term in user.terms %}
-    <div class="card m-2 flex-shrink-0" style="width: 400px; height: 85vh">
+    <div class="card m-2 flex-shrink-0" style="width: 450px; height: 85vh">
       <div
         class="card-header d-flex align-items-center"
         style="background-color: #eaab00"
       >
-        <h4 class="card-title placeholder-glow mb-0 mt-0" style="color: white">
+        <h5 class="card-title placeholder-glow mb-0 mt-0" style="color: white">
           {{ term.name }}
-        </h4>
+        </h5>
+        <!-- Buttons trigger modal-->
+        <div class="btn-group ms-auto" role="group">
+          <button
+            type="button"
+            class="btn btn-dark"
+            data-bs-toggle="modal"
+            data-bs-target="#rename{{term.id}}"
+            aria-label="Rename term"
+          >
+            Rename
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger"
+            data-bs-toggle="modal"
+            data-bs-target="#delete{{term.id}}"
+            aria-label="Delete term"
+          >
+            Delete
+          </button>
+        </div>
+        <!-- Modal for renaming term -->
+        <div
+          class="modal fade"
+          id="rename{{term.id}}"
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          tabindex="-1"
+          aria-labelledby="staticBackdropLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5">Rename {{ term.name }}:</h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form method="POST">
+                  <input
+                    type="hidden"
+                    name="rename_term"
+                    value="{{ term.id }}"
+                  />
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="new_title"
+                    placeholder="Enter new title"
+                  />
+                  <button
+                    type="submit"
+                    class="btn btn-primary d-flex ms-auto m-2"
+                  >
+                    Confirm
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal for deleting term -->
+        <div
+          class="modal fade"
+          id="delete{{term.id}}"
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          tabindex="-1"
+          aria-labelledby="staticBackdropLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5">Delete {{ term.name }}:</h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <p>
+                  All courses added to '{{ term.name }}' will be removed. Starred
+                  courses may still be viewed in the 'Search' tab.
+                </p>
+              </div>
+              <div class="modal-footer">
+                <form method="POST">
+                  <input
+                    type="hidden"
+                    name="delete_term"
+                    value="{{ term.id }}"
+                  />
+                  <button
+                    type="submit"
+                    class="btn btn-primary d-flex ms-auto m-2"
+                  >
+                    Confirm
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End of Modals -->
       </div>
     </div>
     {% endfor %}
@@ -19,9 +131,9 @@
         class="card-header d-flex align-items-center"
         style="background-color: #eaab00"
       >
-        <h4 class="card-title placeholder-glow mb-0 mt-0" style="color: white">
+        <h5 class="card-title placeholder-glow mb-0 mt-0" style="color: white">
           New Term
-        </h4>
+        </h5>
         <!-- Button trigger modal (Add Term) -->
         <button
           type="button"
@@ -57,7 +169,7 @@
                   <input
                     type="text"
                     class="form-control"
-                    name="new_name"
+                    name="name_term"
                     placeholder="Enter title for term"
                   />
                   <button

@@ -9,16 +9,44 @@ views = Blueprint('views', __name__)
 @login_required
 def home():
     if request.method == 'POST':
-        name = request.form.get('new_name')
-        if not name:
-            flash('The title cannot be empty.', category='error')
-        elif len(name) > 20:
-            flash('The term\'s title should be maximum 20 characters.', category='error')
-        else:
-            flash('Term has been successfully created.', category='success')
-            new_term = Term(name=name)
-            current_user.terms.append(new_term)
-            db.session.commit()
-            return redirect(url_for('views.home'))
+        # Term Creation
+        if 'name_term' in request.form:
+            name = request.form.get('name_term')
+            if not name:
+                flash('The title cannot be empty.', category='error')
+            elif len(name) > 20:
+                flash('The term\'s title should be maximum 20 characters.', category='error')
+            else:
+                flash('Term has been successfully created.', category='success')
+                new_term = Term(name=name)
+                current_user.terms.append(new_term)
+                db.session.commit()
+                return redirect(url_for('views.home'))
+        # Term title modification
+        elif 'rename_term' in request.form:
+            id = request.form.get('rename_term')
+            title = request.form.get('new_title')
+            if not title or len(title) > 20:
+                flash('Length requirements are not met.', 'error')
+            else:
+                term = Term.query.filter_by(id=id, user_id=current_user.id).first()
+                if term:
+                    term.name = title
+                    db.session.commit()
+                    flash('Request successful.', 'success')
+                    return redirect(url_for('views.home'))
+                else:
+                    flash('Request unsuccessful.', 'error')
+        # Term deletion
+        elif 'delete_term' in request.form:
+            id = request.form.get('delete_term')
+            term = Term.query.filter_by(id=id, user_id=current_user.id).first()
+            if term:
+                db.session.delete(term)
+                db.session.commit()
+                flash('Deletion successful.', 'success')
+                return redirect(url_for('views.home'))
+            else:
+                flash('Request unsuccessful.', 'error')
 
     return render_template("home.html", user=current_user)
