@@ -15,8 +15,9 @@
       href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="{{ url_for('static', filename='body.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='sheet.css') }}">
     <!-- Block can be overriden by child template -->
+     {%block head %} {% endblock %}
     <title>{% block title %} {% endblock %}</title>
   </head>
   <body>

@@ -5,3 +5,11 @@ body {
   background-repeat: no-repeat;
   min-height: 100vh;
 }
+
+.starred {
+  fill: #ffca1d
+}
+
+.notstarred {
+  fill: white
+}

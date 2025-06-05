@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from . import db
-from .models import Term
+from .models import User, Term, Course
 
 views = Blueprint('views', __name__)
 
@@ -45,6 +45,17 @@ def home():
                 db.session.delete(term)
                 db.session.commit()
                 flash('Deletion successful.', 'success')
+                return redirect(url_for('views.home'))
+            else:
+                flash('Request unsuccessful.', 'error')
+        elif 'remove_course' in request.form:
+            course_id = request.form.get('remove_course')
+            term_id = request.form.get('from_term')
+            term = Term.query.filter_by(id=term_id, user_id=current_user.id).first()
+            if term:
+                term.courses.remove(Course.query.get(course_id))
+                db.session.commit()
+                flash('Course was successfully removed.', 'success')
                 return redirect(url_for('views.home'))
             else:
                 flash('Request unsuccessful.', 'error')

@@ -1,4 +1,7 @@
-{% extends "base.html" %} {% block title %} Home {% endblock %} {% block body %}
+{% from "macros.html" import confirm_del, add_star %} {% extends "base.html" %}
+{% block head %}
+<script src="{{ url_for('static', filename='starred.js') }}" defer></script>
+{% endblock %} {% block title %} Home {% endblock %} {% block body %}
 
 <div class="main-content" style="padding-bottom: 70px">
   <div class="d-flex flex-nowrap" style="overflow-x: auto">
@@ -78,51 +81,45 @@
           </div>
         </div>
         <!-- Modal for deleting term -->
-        <div
-          class="modal fade"
-          id="delete{{term.id}}"
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          tabindex="-1"
-          aria-labelledby="staticBackdropLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog modal-sm modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5">Delete {{ term.name }}:</h1>
+        {{ confirm_del("delete" ~ term.id, "Delete " ~ term.name ~ ":", "All
+        courses added to '" ~ term.name ~ "' will be removed. Starred courses
+        may still be viewed in the 'Search' tab.", [("delete_term", term.id)])}}
+        <!-- End of Modals -->
+      </div>
+      <div
+        class="card-body p-0"
+        style="overflow-y: auto; background-color: #fff4d2"
+      >
+        <ul class="list-group list-group-flush">
+          {% for course in term.courses %}
+          <li class="list-group-item" style="background-color: #fff4d2">
+            <h5 class="card-title" style="color: black">{{ course.title }}</h5>
+            <p class="card-text" style="color: #787878">
+              {{ course.description }}
+            </p>
+            <div class="d-flex justify-content-end">
+              <div class="btn-group" role="group">
+                {% if course in user.courses %} {{ add_star("starred") }} {%
+                else %} {{ add_star("notstarred") }} {% endif %}
                 <button
                   type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <p>
-                  All courses added to '{{ term.name }}' will be removed. Starred
-                  courses may still be viewed in the 'Search' tab.
-                </p>
-              </div>
-              <div class="modal-footer">
-                <form method="POST">
-                  <input
-                    type="hidden"
-                    name="delete_term"
-                    value="{{ term.id }}"
-                  />
-                  <button
-                    type="submit"
-                    class="btn btn-primary d-flex ms-auto m-2"
-                  >
-                    Confirm
-                  </button>
-                </form>
+                  class="btn btn-danger"
+                  data-bs-toggle="modal"
+                  data-bs-target="#removecourse{{course.id}}_{{term.id}}"
+                  aria-label="Remove course"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <!-- Modal for deleting course from term -->
+                {{ confirm_del("removecourse" ~ course.id ~ "_" ~ term.id,
+                "Remove course:", "\"" ~ course.title ~ "\" will be removed from
+                '" ~ term.name ~ "'.", [("remove_course", course.id),
+                ("from_term", term.id)])}}
               </div>
             </div>
-          </div>
-        </div>
-        <!-- End of Modals -->
+          </li>
+          {% endfor %}
+        </ul>
       </div>
     </div>
     {% endfor %}
@@ -184,10 +181,13 @@
           </div>
         </div>
       </div>
-      <div class="card-body p-0" style="overflow-y: auto">
+      <div
+        class="card-body p-0"
+        style="overflow-y: auto; background-color: #fff4d2"
+      >
         <ul class="list-group list-group-flush">
           {% for _ in range(6) %}
-          <li class="list-group-item">
+          <li class="list-group-item" style="background-color: #fff4d2">
             <h5 class="card-title placeholder-glow" style="color: black">
               <span class="placeholder col-{{ range(5,9) | random }}"></span>
             </h5>
@@ -203,5 +203,4 @@
     </div>
   </div>
 </div>
-
 {% endblock %}
