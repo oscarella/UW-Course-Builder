@@ -29,6 +29,9 @@ def create_app():
     from .models import User
     create_database(app)
 
+    from flask_migrate import Migrate
+    migrate= Migrate(app, db)
+
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)

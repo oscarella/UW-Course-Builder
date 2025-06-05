@@ -15,15 +15,7 @@
       href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
       crossorigin="anonymous"
     />
-    <style>
-      body {
-        background-image: url("{{ url_for('static', filename='bg.png') }}");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        min-height: 100vh;
-      }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='body.css') }}">
     <!-- Block can be overriden by child template -->
     <title>{% block title %} {% endblock %}</title>
   </head>
