@@ -1,13 +1,92 @@
 {% extends "base.html" %} {% block title %} Home {% endblock %} {% block body %}
 
-<div class="main-content" style="padding-bottom: 60px">
+<div class="main-content" style="padding-bottom: 70px">
   <div class="d-flex flex-nowrap" style="overflow-x: auto">
-    <div class="card m-2 flex-shrink-0">
+    {% for term in user.terms %}
+    <div class="card m-2 flex-shrink-0" style="width: 400px; height: 85vh">
       <div
-        class="card-body"
-        style="width: 300px; height: 70vh; overflow-y: auto"
+        class="card-header d-flex align-items-center"
+        style="background-color: #eaab00"
       >
-        <h5 class="card-title">Study Term</h5>
+        <h4 class="card-title placeholder-glow mb-0 mt-0" style="color: white">
+          {{ term.name }}
+        </h4>
+      </div>
+    </div>
+    {% endfor %}
+    <div class="card m-2 flex-shrink-0" style="width: 400px; height: 85vh">
+      <div
+        class="card-header d-flex align-items-center"
+        style="background-color: #eaab00"
+      >
+        <h4 class="card-title placeholder-glow mb-0 mt-0" style="color: white">
+          New Term
+        </h4>
+        <!-- Button trigger modal (Add Term) -->
+        <button
+          type="button"
+          class="btn btn-primary ms-auto"
+          data-bs-toggle="modal"
+          data-bs-target="#addterm"
+        >
+          Create!
+        </button>
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="addterm"
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          tabindex="-1"
+          aria-labelledby="staticBackdropLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5">Create Term:</h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form method="POST">
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="new_name"
+                    placeholder="Enter title for term"
+                  />
+                  <button
+                    type="submit"
+                    class="btn btn-primary d-flex ms-auto m-2"
+                  >
+                    Confirm
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body p-0" style="overflow-y: auto">
+        <ul class="list-group list-group-flush">
+          {% for _ in range(6) %}
+          <li class="list-group-item">
+            <h5 class="card-title placeholder-glow" style="color: black">
+              <span class="placeholder col-{{ range(5,9) | random }}"></span>
+            </h5>
+            <p class="card-text placeholder-glow" style="color: #787878">
+              <span class="placeholder col-{{ range(3,9) | random }}"></span>
+              <span class="placeholder col-{{ range(3,9) | random }}"></span>
+              <span class="placeholder col-{{ range(3,9) | random }}"></span>
+            </p>
+          </li>
+          {% endfor %}
+        </ul>
       </div>
     </div>
   </div>

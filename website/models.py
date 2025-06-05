@@ -24,7 +24,7 @@ class User(db.Model, UserMixin):
 
 class Term(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    type = db.Column(db.String(20), nullable=False, default="Study Term")
+    name = db.Column(db.String(20), nullable=False, default="Term")
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     courses = db.relationship('Course', secondary=added, backref='terms')
