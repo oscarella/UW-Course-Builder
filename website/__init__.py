@@ -5,6 +5,7 @@ from os import path
 import asyncio
 from . import script
 from flask_login import LoginManager
+from website import filters
 
 # Database created
 db = SQLAlchemy()
@@ -18,6 +19,7 @@ def create_app():
     app.config['SECRET_KEY'] = 'UWATERLOO'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     app.config['WHOOSHEE_DIR'] = 'whooshee' # Stores index on server
+    app.jinja_env.filters['htmlfy'] = filters.htmlfy
     db.init_app(app)
     whooshee.init_app(app)
     # Register Blueprints

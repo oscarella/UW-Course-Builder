@@ -37,7 +37,12 @@
 </div>
 {% endmacro %} {% macro add_star(class, course_id) %}
 <!-- Bootstrap star icon -->
-<button type="button" class="btn star" data-item-id="{{ course_id }}" style="background-color: #000000">
+<button
+  type="button"
+  class="btn star"
+  data-item-id="{{ course_id }}"
+  style="background-color: #000000"
+>
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="14"
@@ -50,4 +55,32 @@
     />
   </svg>
 </button>
+{% endmacro %} {% macro view_course(title, description, body) %}
+<div class="modal fade" id="course_{{title}}" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: black">
+        <h5 class="modal-title" style="color:white">{{ title }}</h5>
+        <button
+          type="button"
+          class="btn-close"
+          style="background-color: #fcba03"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <h3 style="color: #fcba03"> Description </h3>
+        <p class="h6" style="font-size: large"> {{ description }} </p>
+      </br>
+        <!-- Displays text within modal -->
+        {{ body | htmlfy() | safe }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Dismiss
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 {% endmacro %}

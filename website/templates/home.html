@@ -1,6 +1,7 @@
-{% from "macros.html" import confirm_del, add_star %} {% extends "base.html" %}
+{% from "macros.html" import confirm_del, add_star, view_course %} {% extends "base.html" %}
 {% block head %}
 <script src="{{ url_for('static', filename='starred.js') }}" defer></script>
+<script src="{{ url_for('static', filename='course.js') }}" defer></script>
 {% endblock %} {% block title %} Home {% endblock %} {% block body %}
 
 <div class="main-content" style="padding-bottom: 70px">
@@ -93,7 +94,9 @@
         <ul class="list-group list-group-flush">
           {% for course in term.courses %}
           <li class="list-group-item" style="background-color: #fff4d2">
-            <h5 class="card-title" style="color: black">{{ course.title }}</h5>
+            <!-- Opens modal -->
+            <h5 class="card-title course-title" style="color: black">{{ course.title }}</h5>
+            {{ view_course(course.title, course.description, course.body) }}
             <p class="card-text" style="color: #787878">
               {{ course.description }}
             </p>
