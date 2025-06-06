@@ -1,5 +1,5 @@
-{% from "macros.html" import confirm_del, add_star, view_course %} {% extends "base.html" %}
-{% block head %}
+{% from "macros.html" import confirm_del, add_star, view_course %} {% extends
+"base.html" %} {% block head %}
 <script src="{{ url_for('static', filename='starred.js') }}" defer></script>
 <script src="{{ url_for('static', filename='course.js') }}" defer></script>
 {% endblock %} {% block title %} Home {% endblock %} {% block body %}
@@ -92,18 +92,26 @@
         style="overflow-y: auto; background-color: #fff4d2"
       >
         <ul class="list-group list-group-flush">
-          {% for course in term.courses %}
+          <!-- Enter course message -->
+          {% if not term.courses %}
+          <h5 class="card-title m-2" style="color: rgb(180, 180, 180); text-align: center">
+            <em> Add courses via 'Search' </em>
+          </h5>
+          {% endif %} {% for course in term.courses %}
           <li class="list-group-item" style="background-color: #fff4d2">
             <!-- Opens modal -->
-            <h5 class="card-title course-title" style="color: black">{{ course.title }}</h5>
-            {{ view_course(course.title, course.description, course.body) }}
+            <h5 class="card-title course-title" data-course-id="{{course.id}}" style="color: black">
+              {{ course.title }}
+            </h5>
+            {{ view_course(course.id, course.title, course.description, course.body) }}
             <p class="card-text" style="color: #787878">
               {{ course.description }}
             </p>
             <div class="d-flex justify-content-end">
               <div class="btn-group" role="group">
-                {% if course in user.courses %} {{ add_star("starred", course.id) }} {%
-                else %} {{ add_star("notstarred", course.id) }} {% endif %}
+                {% if course in user.courses %} {{ add_star("starred",
+                course.id) }} {% else %} {{ add_star("notstarred", course.id) }}
+                {% endif %}
                 <button
                   type="button"
                   class="btn btn-danger"

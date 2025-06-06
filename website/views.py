@@ -67,7 +67,6 @@ def star_course():
     print(request.data)
     data = request.get_json()
     courseId  = data.get("courseId")
-    print("HELLO COURSE ID IS" + courseId)
     course = Course.query.get(courseId)
     if course:
         if course in current_user.courses:
