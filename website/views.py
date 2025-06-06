@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from flask_login import login_required, current_user
 from . import db
 from .models import User, Term, Course
@@ -61,3 +61,21 @@ def home():
                 flash('Request unsuccessful.', 'error')
 
     return render_template("home.html", user=current_user)
+
+@views.route('/star-course', methods=['POST'])
+def star_course():
+    print(request.data)
+    data = request.get_json()
+    courseId  = data.get("courseId")
+    print("HELLO COURSE ID IS" + courseId)
+    course = Course.query.get(courseId)
+    if course:
+        if course in current_user.courses:
+            current_user.courses.remove(course)
+            db.session.commit()
+            flash('Starred course removed.', 'success')
+        else:
+            current_user.courses.append(course)
+            db.session.commit()
+            flash('Course successfully starred.', 'success')
+    return jsonify({})

@@ -35,9 +35,9 @@
     </div>
   </div>
 </div>
-{% endmacro %} {% macro add_star(class) %}
+{% endmacro %} {% macro add_star(class, course_id) %}
 <!-- Bootstrap star icon -->
-<button type="button" class="btn star" style="background-color: #000000">
+<button type="button" class="btn star" data-item-id="{{ course_id }}" style="background-color: #000000">
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="14"

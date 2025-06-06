@@ -99,8 +99,8 @@
             </p>
             <div class="d-flex justify-content-end">
               <div class="btn-group" role="group">
-                {% if course in user.courses %} {{ add_star("starred") }} {%
-                else %} {{ add_star("notstarred") }} {% endif %}
+                {% if course in user.courses %} {{ add_star("starred", course.id) }} {%
+                else %} {{ add_star("notstarred", course.id) }} {% endif %}
                 <button
                   type="button"
                   class="btn btn-danger"
