@@ -2,12 +2,18 @@
 "base.html" %} {% block head %}
 <script src="{{ url_for('static', filename='starred.js') }}" defer></script>
 <script src="{{ url_for('static', filename='course.js') }}" defer></script>
+<style>
+  .current-home {
+    color: white;
+    font-weight: bold;
+  }
+</style>
 {% endblock %} {% block title %} Home {% endblock %} {% block body %}
 
 <div class="main-content" style="padding-bottom: 70px">
   <div class="d-flex flex-nowrap" style="overflow-x: auto">
     {% for term in user.terms %}
-    <div class="card m-2 flex-shrink-0" style="width: 450px; height: 85vh">
+    <div class="card m-2 flex-shrink-0" style="width: 450px; height: 82vh">
       <div
         class="card-header d-flex align-items-center"
         style="background-color: #eaab00"
@@ -94,16 +100,24 @@
         <ul class="list-group list-group-flush">
           <!-- Enter course message -->
           {% if not term.courses %}
-          <h5 class="card-title m-2" style="color: rgb(180, 180, 180); text-align: center">
+          <h5
+            class="card-title m-2"
+            style="color: rgb(180, 180, 180); text-align: center"
+          >
             <em> Add courses via 'Search' </em>
           </h5>
           {% endif %} {% for course in term.courses %}
           <li class="list-group-item" style="background-color: #fff4d2">
             <!-- Opens modal -->
-            <h5 class="card-title course-title" data-course-id="{{course.id}}" style="color: black">
+            <h5
+              class="card-title course-title"
+              data-course-id="{{course.id}}"
+              style="color: black"
+            >
               {{ course.title }}
             </h5>
-            {{ view_course(course.id, course.title, course.description, course.body) }}
+            {{ view_course(course.id, course.title, course.description,
+            course.body) }}
             <p class="card-text" style="color: #787878">
               {{ course.description }}
             </p>
@@ -134,7 +148,7 @@
       </div>
     </div>
     {% endfor %}
-    <div class="card m-2 flex-shrink-0" style="width: 400px; height: 85vh">
+    <div class="card m-2 flex-shrink-0" style="width: 400px; height: 82vh">
       <div
         class="card-header d-flex align-items-center"
         style="background-color: #eaab00"

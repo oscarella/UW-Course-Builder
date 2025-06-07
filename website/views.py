@@ -62,7 +62,14 @@ def home():
 
     return render_template("home.html", user=current_user)
 
+@views.route('/search', methods=['GET', 'POST'])
+@login_required
+def search():
+
+    return render_template("search.html", user=current_user)
+
 @views.route('/star-course', methods=['POST'])
+@login_required
 def star_course():
     print(request.data)
     data = request.get_json()
@@ -78,3 +85,9 @@ def star_course():
             db.session.commit()
             flash('Course successfully starred.', 'success')
     return jsonify({})
+
+@views.route('/fetch-starred')
+@login_required
+def fetch_starred():
+    starred = current_user.courses
+    return jsonify([c.to_dict() for c in starred])

@@ -35,6 +35,10 @@ class Course(db.Model):
     title = db.Column(db.String(50), unique=True, nullable=False)
     description = db.Column(db.Text, default="No description found.")
     body = db.Column(db.Text, default="No body found.")
+
+    def to_dict(self):
+        return {"id": self.id, "title": self.title, "desc": self.description}
+    
 # Adding info about whooshee for later use
 # SEARCH RESULT ORDERING
 # Default only 10 results show

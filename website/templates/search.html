@@ -1,0 +1,44 @@
+{% extends "base.html" %} {% block head %}
+<script src="{{ url_for('static', filename='search.js') }}" defer></script>
+<style>
+  .current-search {
+    color: white;
+    font-weight: bold;
+  }
+</style>
+{% endblock %} {% block title %} Search {% endblock %} {% block body %}
+<div
+  class="card m-2 mx-auto"
+  style="
+    width: 95%;
+    height: 75vh;
+    background-color: #fed34c;
+  "
+>
+  <div class="card-header d-flex m-2">
+    <input
+      class="form-control form-control-lg m-1"
+      id="searchBar"
+      type="text"
+      placeholder="Type course or related keyword"
+      aria-label="Course search bar"
+      autofocus
+    />
+    <button type="button" class="btn btn-dark" id="viewCart">Cart</button>
+  </div>
+  <div class="card-body" style="overflow-y: auto">
+    <!-- Shows Results Here -->
+    <ul class="list-group" id="showResults"></ul>
+  </div>
+</div>
+<div style="padding-bottom: 70px">
+  <button
+    type="button"
+    id="checkoutTerm"
+    class="btn btn-primary btn-lg d-flex mx-auto"
+  >
+    Select Term
+  </button>
+</div>
+
+{% endblock %}

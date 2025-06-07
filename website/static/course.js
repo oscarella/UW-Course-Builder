@@ -8,8 +8,8 @@ document.querySelectorAll('.course-title').forEach(title => {
         title.style.textDecoration = "";
     });
     title.addEventListener('click', function(){
-        var id = title.getAttribute('data-course-id');
-        var course_modal = new bootstrap.Modal(document.getElementById('course_' + id));
+        let id = title.getAttribute('data-course-id');
+        let course_modal = new bootstrap.Modal(document.getElementById('course_' + id));
         course_modal.show();
     });
 });
