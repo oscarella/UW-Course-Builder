@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from flask_login import login_required, current_user
 from . import db
-from .models import User, Term, Course
+from .models import Term, Course
 
 views = Blueprint('views', __name__)
 
@@ -21,7 +21,6 @@ def home():
                 new_term = Term(name=name)
                 current_user.terms.append(new_term)
                 db.session.commit()
-                return redirect(url_for('views.home'))
         # Term title modification
         elif 'rename_term' in request.form:
             id = request.form.get('rename_term')
@@ -34,7 +33,6 @@ def home():
                     term.name = title
                     db.session.commit()
                     flash('Request successful.', 'success')
-                    return redirect(url_for('views.home'))
                 else:
                     flash('Request unsuccessful.', 'error')
         # Term deletion
@@ -45,7 +43,6 @@ def home():
                 db.session.delete(term)
                 db.session.commit()
                 flash('Deletion successful.', 'success')
-                return redirect(url_for('views.home'))
             else:
                 flash('Request unsuccessful.', 'error')
         elif 'remove_course' in request.form:
@@ -56,9 +53,9 @@ def home():
                 term.courses.remove(Course.query.get(course_id))
                 db.session.commit()
                 flash('Course was successfully removed.', 'success')
-                return redirect(url_for('views.home'))
             else:
                 flash('Request unsuccessful.', 'error')
+        return redirect(url_for('views.home'))
 
     return render_template("home.html", user=current_user)
 
@@ -71,7 +68,6 @@ def search():
 @views.route('/star-course', methods=['POST'])
 @login_required
 def star_course():
-    print(request.data)
     data = request.get_json()
     courseId  = data.get("courseId")
     course = Course.query.get(courseId)
@@ -91,3 +87,10 @@ def star_course():
 def fetch_starred():
     starred = current_user.courses
     return jsonify([c.to_dict() for c in starred])
+
+@views.route('/search-keyword', methods=['POST'])
+@login_required
+def search_keyword():
+    query = request.get_json().get("query")
+    results = Course.query.whooshee_search(query, order_by_relevance=-1).limit(300).all()
+    return jsonify([c.to_dict() for c in results])

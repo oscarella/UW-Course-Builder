@@ -9,22 +9,49 @@
 {% endblock %} {% block title %} Search {% endblock %} {% block body %}
 <div
   class="card m-2 mx-auto"
-  style="
-    width: 95%;
-    height: 75vh;
-    background-color: #fed34c;
-  "
+  style="width: 95%; height: 75vh; background-color: #fed34c"
 >
   <div class="card-header d-flex m-2">
     <input
       class="form-control form-control-lg m-1"
       id="searchBar"
       type="text"
-      placeholder="Type course or related keyword"
+      placeholder="Type course or related keyword (At least 3 characters)"
       aria-label="Course search bar"
       autofocus
     />
-    <button type="button" class="btn btn-dark" id="viewCart">Cart</button>
+    <button
+      type="button"
+      class="btn btn-dark"
+      id="viewCart"
+      data-bs-toggle="modal"
+      data-bs-target="#viewCartModal"
+    >
+      Cart
+    </button>
+    <!-- Cart Modal -->
+    <div class="modal fade" id="viewCartModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header" style="background-color: black">
+            <h3 style="color: white">Cart <small> (View Only) </small></h3>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              style="background-color: white"
+            ></button>
+          </div>
+          <div class="modal-body" id="viewCartModalBody"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="card-body" style="overflow-y: auto">
     <!-- Shows Results Here -->
@@ -37,7 +64,7 @@
     id="checkoutTerm"
     class="btn btn-primary btn-lg d-flex mx-auto"
   >
-    Select Term
+    Checkout
   </button>
 </div>
 

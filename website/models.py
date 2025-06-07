@@ -38,8 +38,3 @@ class Course(db.Model):
 
     def to_dict(self):
         return {"id": self.id, "title": self.title, "desc": self.description}
-    
-# Adding info about whooshee for later use
-# SEARCH RESULT ORDERING
-# Default only 10 results show
-# whooshee_search('value', order_by_relevance=0).all()

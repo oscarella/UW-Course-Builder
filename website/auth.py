@@ -22,6 +22,7 @@ def login():
                 flash('Incorrect password.', 'error')
         else:
             flash('Given email is not registered.', 'error')
+        return redirect(url_for('auth.login'))
 
     return render_template("login.html", user=current_user)
 
@@ -52,6 +53,7 @@ def signup():
             db.session.commit()
             login_user(u, remember=True)
             return redirect(url_for('views.home'))
+        return redirect(url_for('auth.signup'))
 
     return render_template("signup.html", user=current_user)
 
