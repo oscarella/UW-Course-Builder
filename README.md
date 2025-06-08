@@ -1,16 +1,16 @@
 # UW-Course-Builder
 
-Based on the University of Waterloo's [2025-2026 Undergraduate Calendar] (https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/),
+Based on the University of Waterloo's [2025-2026 Undergraduate Calendar](https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/),
 browse course offerings to create your own custom schedule.
 
 ### Render
-This web application is publicly hosted on render.com (https://uw-course-builder.onrender.com/). However, due to slow loading speeds,
+This web application is publicly hosted on render.com (https://uw-course-builder.onrender.com/). Due to slow loading speeds,
 it is recommended that you host locally for better experience.
 
 ### Upcoming Features
 - Based on major/minor, confirm if schedule meets all requirements
 - Course tree that visually shows course prerequisites and antirequisites
-- Get course recommendations based on course selection and schedules of other users
+- Get course recommendations based on course selection and other schedules
 
 ### Hosting Locally (for bash)
 1. Clone the repo in terminal
