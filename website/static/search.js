@@ -254,3 +254,49 @@ function addToCart(id, title) {
         modal.hide();
     });
 }
+
+// Sends POST request to backend when user finalizes 'Checkout'
+let checkoutBtn = document.getElementById('finishCheckout');
+checkoutBtn.addEventListener('click', function() {
+    let termSelected = document.getElementById('termOptions').value;
+    fetch('/add-courses', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ courses: cart, term: termSelected })
+    }).then((_res) => {
+        window.location.href = "/";
+    });
+})
+
+// Listener for when user selects 'Checkout'
+let checkout = document.getElementById('checkoutTerm');
+checkout.addEventListener('click', function() {
+    fetch('/fetch-terms')
+    .then(response => response.json())
+    .then(result => {
+        let terms = result; // [{term.id, term.name}]
+        if (!terms.length) {
+            let modalBody = document.getElementById('checkoutTermOptions');
+            modalBody.innerHTML = `<h5 style="text-align: center"> You cannot add course(s) with no terms. 
+                                    To create a term, go to 'Home'. </h5>`;
+        } else {
+            let html = "";
+            for (const term of terms) {
+                html += `<option value="${term.id}"> ${term.name} </option>`;
+            }
+            let list = document.getElementById('termOption');
+            list.innerHTML = html;
+        }
+    });
+})
+
+// Listener to ensure user selects proper term during 'Checkout'
+let options = document.getElementById('termOptions');
+options.addEventListener('change', function() {
+    let checkoutBtn = document.getElementById('finishCheckout');
+    if (options.value != "-1") {
+        checkoutBtn.disabled = false;
+    } else {
+        checkoutBtn.disabled = true;
+    }
+});

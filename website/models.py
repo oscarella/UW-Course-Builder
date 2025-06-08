@@ -29,6 +29,9 @@ class Term(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     courses = db.relationship('Course', secondary=added, backref='terms')
 
+    def to_dict(self):
+        return {"id": self.id, "name": self.name}
+
 @whooshee.register_model('title', 'description')
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)

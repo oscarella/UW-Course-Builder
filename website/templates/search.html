@@ -58,7 +58,12 @@ head %}
     <!-- Shows Results Here -->
     <ul class="list-group" id="showResults"></ul>
     <!-- Course Viewer Modal -->
-    <div class="modal fade" id="courseViewerModal" tabindex="-1" aria-hidden="true">
+    <div
+      class="modal fade"
+      id="courseViewerModal"
+      tabindex="-1"
+      aria-hidden="true"
+    >
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header" style="background-color: black">
@@ -85,9 +90,47 @@ head %}
     type="button"
     id="checkoutTerm"
     class="btn btn-primary btn-lg d-flex mx-auto"
+    data-bs-toggle="modal"
+    data-bs-target="#checkoutModal"
   >
     Checkout
   </button>
+  <!-- Checkout Modal -->
+  <div class="modal fade" id="checkoutModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #fcba03">
+          <h5 class="modal-title" style="color: white">Select Term</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+        <div class="modal-body" id="checkoutTermOptions">
+          <select
+            class="form-select form-select-lg mb-3"
+            aria-label="select example"
+            id="termOptions"
+          >
+            <option selected value="-1">Open options</option>
+            <!-- Term options populated here -->
+             <div id="termOption"> </div>
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-primary btn-lg"
+            id="finishCheckout"
+            disabled
+          >
+            Checkout Courses in Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}

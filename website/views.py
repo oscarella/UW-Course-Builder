@@ -60,6 +60,28 @@ def home():
 
     return render_template("home.html", user=current_user)
 
+@views.route('/add-courses', methods=['POST'])
+@login_required
+def add_courses():
+    data = request.get_json()
+    courses = data.get("courses")
+    termId = data.get("term")
+    print(courses)
+    if len(courses) == 0:
+        flash('No courses were added to cart.', 'error')
+    else:
+        term = Term.query.get(termId)
+        if term is None or term.user_id != current_user.id:
+            flash('Request unsuccessful.', 'error')
+        else:
+            for cdict in courses:
+                course = Course.query.get(cdict['id'])
+                if course:
+                    term.courses.append(course)
+            db.session.commit()
+            flash('Successfully added.', 'success')
+    return jsonify({})
+
 @views.route('/search', methods=['GET', 'POST'])
 @login_required
 def search():
@@ -103,6 +125,12 @@ def star_course_search():
 def fetch_starred():
     starred = current_user.courses
     return jsonify([c.to_dict() for c in starred])
+
+@views.route('/fetch-terms')
+@login_required
+def fetch_terms():
+    terms = current_user.terms
+    return jsonify([t.to_dict() for t in terms])
 
 @views.route('/check-status', methods = ['POST'])
 @login_required
