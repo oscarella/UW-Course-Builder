@@ -1,4 +1,5 @@
-{% extends "base.html" %} {% block head %}
+{% from "macros.html" import view_course %} {% extends "base.html" %} {% block
+head %}
 <script src="{{ url_for('static', filename='search.js') }}" defer></script>
 <style>
   .current-search {
@@ -56,6 +57,27 @@
   <div class="card-body" style="overflow-y: auto">
     <!-- Shows Results Here -->
     <ul class="list-group" id="showResults"></ul>
+    <!-- Course Viewer Modal -->
+    <div class="modal fade" id="courseViewerModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header" style="background-color: black">
+            <h5 class="modal-title" style="color: white"></h5>
+            <button
+              type="button"
+              class="btn-close"
+              style="background-color: #fcba03"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <h3 style="color: #fcba03">Description</h3>
+            <p class="h6 modal-body-text" style="font-size: large"></p>
+          </div>
+          <div class="modal-footer"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <div style="padding-bottom: 70px">

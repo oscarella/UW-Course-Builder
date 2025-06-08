@@ -37,4 +37,4 @@ class Course(db.Model):
     body = db.Column(db.Text, default="No body found.")
 
     def to_dict(self):
-        return {"id": self.id, "title": self.title, "desc": self.description}
+        return {"id": self.id, "title": self.title, "desc": self.description, "body": self.body}

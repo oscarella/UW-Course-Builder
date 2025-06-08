@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from flask_login import login_required, current_user
 from . import db
 from .models import Term, Course
+from .filters import htmlfy
 
 views = Blueprint('views', __name__)
 
@@ -82,15 +83,56 @@ def star_course():
             flash('Course successfully starred.', 'success')
     return jsonify({})
 
+@views.route('/star-course-search', methods=['POST'])
+@login_required
+def star_course_search():
+    data = request.get_json()
+    courseId  = data.get("courseId")
+    course = Course.query.get(courseId)
+    if course:
+        if course in current_user.courses:
+            current_user.courses.remove(course)
+            db.session.commit()
+        else:
+            current_user.courses.append(course)
+            db.session.commit()
+    return fetch_starred()
+
 @views.route('/fetch-starred')
 @login_required
 def fetch_starred():
     starred = current_user.courses
     return jsonify([c.to_dict() for c in starred])
 
+@views.route('/check-status', methods = ['POST'])
+@login_required
+def check_status():
+    courseId = request.get_json().get("courseId")
+    contains = False
+    for term in current_user.terms:
+        for course in term.courses:
+            if courseId == course.id:
+                contains = True
+    return jsonify(contains)
+
 @views.route('/search-keyword', methods=['POST'])
 @login_required
 def search_keyword():
     query = request.get_json().get("query")
-    results = Course.query.whooshee_search(query, order_by_relevance=-1).limit(300).all()
+    results = Course.query.whooshee_search(query, order_by_relevance=-1).limit(250).all()
     return jsonify([c.to_dict() for c in results])
+
+@views.route('/search-course-id', methods=['POST'])
+@login_required
+def search_course_id():
+    data = request.get_json()
+    courseId  = data.get("courseId")
+    course = Course.query.get(courseId)
+    return jsonify(course.to_dict())
+
+@views.route('/prettify-desc', methods=['POST'])
+@login_required
+def prettify_desc():
+    body = request.get_json().get('courseBody')
+    body = htmlfy(body)
+    return jsonify(body)
